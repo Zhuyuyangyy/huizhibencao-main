@@ -1,0 +1,600 @@
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip
+} from 'recharts';
+import {
+  Leaf,
+  CloudSun,
+  Droplets,
+  Wind,
+  Thermometer,
+  Activity,
+  AlertTriangle,
+  Settings,
+  Bot,
+  Plane,
+  Home,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  Wifi,
+  ChevronDown,
+  Box,
+  Layers
+} from 'lucide-react';
+
+// --- Mock Data ---
+
+const radarData = [
+  { subject: '光照(lux)', A: 15800, fullMark: 20000 },
+  { subject: 'pH值', A: 6.38, fullMark: 14 },
+  { subject: '土壤湿度', A: 32.6, fullMark: 100 },
+  { subject: 'CO₂浓度', A: 613, fullMark: 1000 },
+  { subject: '空气湿度', A: 68.2, fullMark: 100 },
+  { subject: '空气温度', A: 26.4, fullMark: 50 },
+  { subject: '钾(K)', A: 28.6, fullMark: 100 },
+  { subject: '磷(P)', A: 192, fullMark: 300 },
+];
+
+const areaChartData = [
+  { time: '00:00', value: 3 },
+  { time: '04:00', value: 4 },
+  { time: '08:00', value: 6 },
+  { time: '11:30', value: 8.76 },
+  { time: '12:00', value: 9 },
+  { time: '16:00', value: 7 },
+  { time: '20:00', value: 4 },
+  { time: '24:00', value: 3 },
+];
+
+const decisionLog = [
+  { time: '14:35:30', title: '智能水肥机已开启', desc: '调整灌溉量至 28%，施用平衡肥', status: 'running', icon: <Droplets size={16} /> },
+  { time: '14:35:15', title: '无人机已派出巡检', desc: '执行多光谱巡检任务，区域：A3区块', status: 'running', icon: <Plane size={16} /> },
+  { time: '14:34:58', title: '通风系统已调整', desc: '湿度偏高，已将风机转速调至 65%', status: 'completed', icon: <Wind size={16} /> },
+  { time: '14:34:42', title: '检测到潜在虫害风险', desc: '钻心虫声学信号增强，建议加强监测', status: 'alert', icon: <AlertTriangle size={16} /> },
+  { time: '14:34:20', title: 'LED补光灯已开启', desc: '光照不足，已开启补光灯至 60%', status: 'completed', icon: <CloudSun size={16} /> },
+];
+
+// --- Components ---
+
+// 带有科幻边框的面板组件
+const Panel = ({ title, children, className = '', updateTime }) => (
+  <div className={`relative bg-[#021124]/80 border border-[#00a8ff]/30 rounded-xl p-4 flex flex-col backdrop-blur-md overflow-hidden ${className}`}>
+    {/* 装饰性角标 */}
+    <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[#00ffff]"></div>
+    <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[#00ffff]"></div>
+    <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-[#00ffff]"></div>
+    <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-[#00ffff]"></div>
+    
+    <div className="flex justify-between items-center mb-4">
+      <div className="flex items-center space-x-2">
+        <span className="text-[#00ffff] font-bold italic text-lg">//</span>
+        <h2 className="text-lg font-bold text-white tracking-wide">{title}</h2>
+      </div>
+      {updateTime && <span className="text-xs text-gray-400">更新时间: {updateTime}</span>}
+    </div>
+    <div className="flex-1 w-full h-full">
+      {children}
+    </div>
+  </div>
+);
+
+// 底部统计卡片组件
+const StatCard = ({ icon, label, value, unit, trend, isWarning }) => (
+  <div className="bg-[#041a33]/80 border border-[#0055ff]/40 rounded-lg p-3 flex items-center justify-between relative overflow-hidden group hover:border-[#00ffff]/80 transition-colors">
+    <div className="absolute inset-0 bg-gradient-to-r from-[#00ffff]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+    <div className="flex items-center gap-3 relative z-10">
+      <div className={`p-2 rounded-lg ${isWarning ? 'bg-red-500/20 text-red-400' : 'bg-[#00a8ff]/20 text-[#00ffff]'}`}>
+        {icon}
+      </div>
+      <div>
+        <div className="text-xs text-gray-400 mb-1">{label}</div>
+        <div className="flex items-baseline gap-1">
+          <span className={`text-2xl font-bold ${isWarning ? 'text-red-400' : 'text-white'}`}>{value}</span>
+          <span className="text-sm text-gray-400">{unit}</span>
+          {trend && (
+            <span className="text-[#00ffcc] text-sm ml-1">↑</span>
+          )}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+export default function App() {
+  const [time, setTime] = useState(new Date());
+  const canvasRef = useRef(null);
+  const ndviCanvasRef = useRef(null);
+
+  // 时钟更新
+  useEffect(() => {
+    const timer = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // 绘制声谱图 Canvas
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationId;
+
+    const drawSpectrogram = () => {
+      const w = canvas.width;
+      const h = canvas.height;
+      
+      // 清空背景
+      ctx.fillStyle = '#050a15';
+      ctx.fillRect(0, 0, w, h);
+
+      // 绘制网格线
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineWidth = 1;
+      for (let i = 0; i < h; i += 20) {
+        ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(w, i); ctx.stroke();
+      }
+
+      // 绘制热力图柱状纹理模拟声谱
+      const barWidth = 2;
+      const gap = 1;
+      
+      for (let x = 0; x < w; x += (barWidth + gap)) {
+        // 创建中间密集、两边稀疏的波形效果
+        const intensity = Math.sin(x / w * Math.PI) + Math.random() * 0.5;
+        const height = h * 0.8 * intensity * (Math.random() * 0.5 + 0.5);
+        const y = h - height;
+
+        // 火焰渐变色
+        const gradient = ctx.createLinearGradient(0, h, 0, h - height);
+        gradient.addColorStop(0, '#ffff00'); // 黄色底部
+        gradient.addColorStop(0.3, '#ff6600'); // 橙色
+        gradient.addColorStop(0.7, '#ff0000'); // 红色
+        gradient.addColorStop(1, 'rgba(255,0,0,0)'); // 顶部透明
+
+        ctx.fillStyle = gradient;
+        
+        // 绘制主波峰
+        ctx.fillRect(x, y, barWidth, height);
+        
+        // 随机散落的亮点
+        if (Math.random() > 0.8) {
+          ctx.fillStyle = 'rgba(255, 255, 0, 0.8)';
+          ctx.fillRect(x, Math.random() * h, barWidth, 2);
+        }
+      }
+      
+      // 模拟滚动动画 (简单重绘)
+      setTimeout(() => {
+        animationId = requestAnimationFrame(drawSpectrogram);
+      }, 100); // 降低帧率以获得闪烁效果
+    };
+
+    drawSpectrogram();
+    return () => {
+      cancelAnimationFrame(animationId);
+      clearTimeout(animationId);
+    };
+  }, []);
+
+  // 绘制 NDVI 热力图 Canvas
+  useEffect(() => {
+    const canvas = ndviCanvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width;
+    const h = canvas.height;
+
+    // 基础底色 (健康绿色)
+    ctx.fillStyle = '#0a5c0a';
+    ctx.fillRect(0, 0, w, h);
+
+    // 绘制有机斑块函数
+    const drawBlob = (color, count, minR, maxR) => {
+      for(let i = 0; i < count; i++) {
+          const x = Math.random() * w;
+          const y = Math.random() * h;
+          const r = minR + Math.random() * (maxR - minR);
+          
+          const grad = ctx.createRadialGradient(x, y, 0, x, y, r);
+          grad.addColorStop(0, color);
+          grad.addColorStop(1, 'transparent');
+          
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+      }
+    };
+
+    // 叠加不同生长状态的色块以模拟真实多光谱遥感图
+    drawBlob('rgba(0, 220, 0, 0.8)', 30, 10, 25);   // 中等绿色
+    drawBlob('rgba(200, 255, 0, 0.8)', 20, 8, 20);  // 黄绿色 (生长一般)
+    drawBlob('rgba(255, 150, 0, 0.85)', 15, 8, 18); // 橙黄色 (预警)
+    drawBlob('rgba(255, 0, 0, 0.9)', 10, 5, 15);    // 红色 (问题区域)
+  }, []);
+
+  const timeString = time.toLocaleTimeString('zh-CN', { hour12: false });
+  const dateString = "2025-05-22";
+  const dayString = "星期四";
+
+  return (
+    <div className="min-h-screen bg-[#01060e] text-slate-200 font-sans p-4 overflow-hidden relative selection:bg-cyan-900">
+      {/* 全局背景网格和发光效果 */}
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=')]"></div>
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#00ffff] rounded-full blur-[150px] opacity-10 pointer-events-none"></div>
+
+      {/* --- 顶部 Header --- */}
+      <header className="flex justify-between items-center mb-4 relative z-10">
+        <div className="flex items-center gap-3">
+          <div className="text-[#00ffcc] p-1 bg-[#00ffcc]/10 rounded-lg border border-[#00ffcc]/30">
+            <Leaf size={32} />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-[#00ffff] tracking-widest">
+              慧种仁心
+            </h1>
+            <div className="text-xs text-[#00a8ff] tracking-[0.2em] mt-1 uppercase">AI 智能农业决策平台</div>
+          </div>
+        </div>
+
+        <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <h2 className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white via-cyan-100 to-[#00a8ff] tracking-widest" style={{ textShadow: '0 0 20px rgba(0, 255, 255, 0.4)' }}>
+            慧种仁心AI智能农业决策平台
+          </h2>
+          {/* 标题下方的装饰线 */}
+          <div className="w-[600px] h-[2px] bg-gradient-to-r from-transparent via-[#00ffff] to-transparent mt-2 relative">
+             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-1 bg-[#00ffff] shadow-[0_0_10px_#00ffff]"></div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <CloudSun size={24} className="text-gray-300" />
+            <div>
+              <div className="text-sm font-bold">23°C</div>
+              <div className="text-xs text-gray-400">多云</div>
+            </div>
+          </div>
+          <div className="h-8 w-px bg-slate-700"></div>
+          <div className="text-right">
+            <div className="text-sm">{dateString}</div>
+            <div className="text-xs text-gray-400">{dayString}</div>
+          </div>
+          <div className="text-3xl font-mono text-[#00ffff] font-light shadow-[#00ffff]">
+            {timeString}
+          </div>
+          <div className="flex items-center gap-2 bg-[#00ff00]/10 px-3 py-1 rounded-full border border-[#00ff00]/30">
+            <div className="w-2 h-2 rounded-full bg-[#00ff00] shadow-[0_0_8px_#00ff00] animate-pulse"></div>
+            <span className="text-xs text-[#00ff00]">系统运行正常</span>
+          </div>
+        </div>
+      </header>
+
+      {/* --- 主内容区域 --- */}
+      <main className="grid grid-cols-[3fr_5fr_3fr] gap-4 h-[calc(100vh-160px)] relative z-10">
+        
+        {/* 左侧栏 */}
+        <div className="flex flex-col gap-4">
+          {/* 天/地环境监控 */}
+          <Panel title="天 / 地环境监控" updateTime="14:35:30" className="flex-1">
+            <div className="h-[240px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart cx="50%" cy="50%" outerRadius="70%" data={radarData}>
+                  <PolarGrid stroke="rgba(0, 255, 255, 0.2)" />
+                  <PolarAngleAxis dataKey="subject" tick={{ fill: '#a0aec0', fontSize: 10 }} />
+                  <PolarRadiusAxis angle={30} domain={[0, 'dataMax']} tick={false} axisLine={false} />
+                  <Radar name="环境数据" dataKey="A" stroke="#00ffff" strokeWidth={2} fill="url(#colorRadar)" fillOpacity={0.6} />
+                  <defs>
+                    <linearGradient id="colorRadar" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#00ffff" stopOpacity={0.8}/>
+                      <stop offset="95%" stopColor="#0055ff" stopOpacity={0.2}/>
+                    </linearGradient>
+                  </defs>
+                  <Tooltip contentStyle={{ backgroundColor: 'rgba(2, 17, 36, 0.9)', border: '1px solid #00ffff' }} itemStyle={{ color: '#00ffff' }} />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+            {/* 雷达图下方的指标块 */}
+            <div className="grid grid-cols-4 gap-2 mt-2">
+              {[
+                { icon: <Thermometer size={16}/>, label: '空气温度', val: '26.4', unit: '°C' },
+                { icon: <Droplets size={16}/>, label: '空气湿度', val: '68.2', unit: '%' },
+                { icon: <CloudSun size={16}/>, label: 'CO₂浓度', val: '613', unit: 'ppm' },
+                { icon: <Layers size={16}/>, label: '土壤湿度', val: '32.6', unit: '%' },
+              ].map((item, idx) => (
+                <div key={idx} className="bg-[#002b4d]/40 p-2 rounded flex flex-col items-center justify-center border border-[#00ffff]/10">
+                  <div className="flex items-center gap-1 text-gray-400 text-xs mb-1">
+                    {item.icon} {item.label}
+                  </div>
+                  <div className="text-white font-bold text-sm">
+                    {item.val}<span className="text-xs text-gray-500 ml-1">{item.unit}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Panel>
+
+          {/* 植物生理与多光谱数据 */}
+          <Panel title="植物生理与多光谱数据" updateTime="14:35:20" className="flex-1">
+            <div className="flex flex-col h-full">
+              {/* NDVI 热力图区域 */}
+              <div className="mb-4">
+                <div className="text-xs text-gray-400 mb-2">NDVI 热力图</div>
+                <div className="flex gap-3 items-center">
+                  {/* 热力图 Canvas */}
+                  <div className="flex-1 relative h-20 rounded border border-[#00ffff]/30 overflow-hidden">
+                    <canvas ref={ndviCanvasRef} className="w-full h-full" width={300} height={80}></canvas>
+                  </div>
+                  
+                  {/* 图例和数据 */}
+                  <div className="w-[120px] flex items-center gap-3 shrink-0">
+                    <div className="flex items-center gap-1">
+                      <div className="w-1.5 h-16 bg-gradient-to-b from-red-500 via-yellow-400 to-green-600 rounded"></div>
+                      <div className="flex flex-col justify-between h-16 text-[10px] text-gray-400 py-0.5">
+                        <span>1.0</span>
+                        <span>0.5</span>
+                        <span>0</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-center">
+                      <span className="text-[10px] text-gray-400 mb-1">当前NDVI均值</span>
+                      <div className="text-2xl font-bold text-white flex items-baseline gap-1">
+                        0.78 <span className="text-[#00ffcc] text-sm">↑</span>
+                      </div>
+                      <span className="text-[10px] text-gray-400">较昨日 <span className="text-[#00ffcc]">+0.05</span></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 蒸腾速率图表 */}
+              <div className="flex-1 flex flex-col min-h-[100px]">
+                <div className="text-xs text-gray-400 mb-1">蒸腾速率 (mmol/m²/s)</div>
+                <div className="flex-1 w-full relative">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={areaChartData} margin={{ top: 5, right: 0, left: -20, bottom: 0 }}>
+                      <defs>
+                        <linearGradient id="colorArea" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#00a8ff" stopOpacity={0.5}/>
+                          <stop offset="95%" stopColor="#00a8ff" stopOpacity={0}/>
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                      <XAxis dataKey="time" tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
+                      <YAxis tick={{ fill: '#64748b', fontSize: 10 }} axisLine={false} tickLine={false} />
+                      <Tooltip 
+                        contentStyle={{ backgroundColor: 'rgba(2, 17, 36, 0.9)', border: '1px solid #00ffff', borderRadius: '4px' }} 
+                        itemStyle={{ color: '#00ffff' }}
+                        labelStyle={{ color: '#fff' }}
+                      />
+                      <Area type="monotone" dataKey="value" stroke="#00ffff" strokeWidth={2} fillOpacity={1} fill="url(#colorArea)" />
+                      {/* 模拟指示器点 */}
+                      <circle cx="50%" cy="40%" r="4" fill="#00ffff" className="animate-ping absolute" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </div>
+          </Panel>
+        </div>
+
+        {/* 中间核心场景 (模拟 3D 效果) */}
+        <div className="relative flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#003366]/20 via-transparent to-transparent rounded-xl border border-transparent hover:border-[#00ffff]/10 transition-colors">
+          
+          {/* 模拟SVG光纤连线 */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" z-index="0">
+            <defs>
+              <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#00ffff" stopOpacity="0" />
+                <stop offset="50%" stopColor="#00ffff" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#00ffcc" stopOpacity="0.2" />
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="5" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            {/* 连向中心的曲线 */}
+            <path d="M 150 150 Q 300 150 400 450" fill="none" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_20s_linear_infinite]" filter="url(#glow)"/>
+            <path d="M 650 150 Q 500 150 400 450" fill="none" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_15s_linear_infinite]" filter="url(#glow)"/>
+            <path d="M 100 400 Q 250 400 400 450" fill="none" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_25s_linear_infinite]" filter="url(#glow)"/>
+            <path d="M 700 400 Q 550 400 400 450" fill="none" stroke="url(#lineGrad)" strokeWidth="2" strokeDasharray="5,5" className="animate-[dash_18s_linear_infinite]" filter="url(#glow)"/>
+          </svg>
+
+          {/* 悬浮标签和图标元素 */}
+          <div className="absolute top-[15%] left-[20%] flex flex-col items-center">
+            <div className="bg-[#002b4d]/80 border border-[#00ffff]/50 px-3 py-1 rounded text-xs text-[#00ffff] mb-2 backdrop-blur whitespace-nowrap shadow-[0_0_10px_rgba(0,255,255,0.3)]">多光谱无人机</div>
+            <Plane size={32} className="text-[#00ffff] drop-shadow-[0_0_8px_#00ffff]" />
+          </div>
+
+          <div className="absolute top-[25%] right-[25%] flex flex-col items-center">
+            <div className="bg-[#002b4d]/80 border border-[#00ffff]/50 px-3 py-1 rounded text-xs text-[#00ffff] mb-2 backdrop-blur whitespace-nowrap shadow-[0_0_10px_rgba(0,255,255,0.3)]">通风系统 / LED补光灯</div>
+            <Wind size={28} className="text-[#00ffff] drop-shadow-[0_0_8px_#00ffff]" />
+          </div>
+
+          <div className="absolute bottom-[35%] left-[15%] flex flex-col items-center">
+            <div className="bg-[#002b4d]/80 border border-[#00ffff]/50 px-3 py-1 rounded text-xs text-[#00ffff] mb-2 backdrop-blur whitespace-nowrap shadow-[0_0_10px_rgba(0,255,255,0.3)]">巡检机器人</div>
+            <Bot size={36} className="text-[#00ffff] drop-shadow-[0_0_8px_#00ffff]" />
+          </div>
+
+          <div className="absolute bottom-[40%] right-[10%] flex flex-col items-center">
+            <div className="bg-[#002b4d]/80 border border-[#00ffff]/50 px-3 py-1 rounded text-xs text-[#00ffff] mb-2 backdrop-blur whitespace-nowrap shadow-[0_0_10px_rgba(0,255,255,0.3)]">水肥控制机</div>
+            <Settings size={32} className="text-[#00ffff] drop-shadow-[0_0_8px_#00ffff]" />
+          </div>
+
+          {/* 中央温室主体模拟 */}
+          <div className="relative z-10 w-[60%] h-[40%] mt-[-10%] flex items-center justify-center perspective-[1000px]">
+             {/* 使用纯 CSS 构建一个类似玻璃温室的结构 */}
+             <div className="w-full h-full border-[2px] border-[#00a8ff]/40 bg-[#0055ff]/10 rounded-lg transform rotate-x-[60deg] rotate-z-[-10deg] shadow-[0_0_50px_rgba(0,168,255,0.2)] flex grid grid-cols-5 grid-rows-3 gap-1 p-2">
+                {Array.from({ length: 15 }).map((_, i) => (
+                  <div key={i} className="border border-[#00ffff]/20 bg-[#00ffff]/5 w-full h-full flex items-center justify-center">
+                     {/* 内部植物光效 */}
+                     <div className="w-[60%] h-[20%] bg-green-500/40 rounded-full blur-[4px]"></div>
+                  </div>
+                ))}
+             </div>
+          </div>
+
+          {/* 底部数据汇聚地球仪 */}
+          <div className="absolute bottom-10 flex flex-col items-center z-20">
+            <div className="relative w-32 h-32 flex items-center justify-center">
+              {/* 外圈光环 */}
+              <div className="absolute inset-0 rounded-full border border-[#00ffff]/30 animate-[spin_10s_linear_infinite]"></div>
+              <div className="absolute inset-2 rounded-full border border-[#00ffcc]/20 border-dashed animate-[spin_15s_linear_infinite_reverse]"></div>
+              {/* 地球主体 (用渐变和网格模拟) */}
+              <div className="w-24 h-24 rounded-full bg-[radial-gradient(circle_at_30%_30%,_#00ffff_0%,_#003366_70%)] opacity-80 overflow-hidden relative shadow-[0_0_30px_#00ffff]">
+                {/* 经纬线网格模拟 */}
+                <div className="absolute inset-0 border border-[#00ffff]/30 rounded-full"></div>
+                <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-[#00ffff]/30"></div>
+                <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-[#00ffff]/30"></div>
+                {/* 发光核心 */}
+                <div className="absolute inset-0 bg-[#00ffff]/10 blur-md rounded-full animate-pulse"></div>
+              </div>
+            </div>
+            <div className="mt-4 text-[#00ffff] font-bold tracking-widest text-sm shadow-[#00ffff] drop-shadow-[0_0_5px_#00ffff]">
+              数据汇聚中...
+            </div>
+          </div>
+
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes dash {
+              to { stroke-dashoffset: -100; }
+            }
+          `}} />
+        </div>
+
+        {/* 右侧栏 */}
+        <div className="flex flex-col gap-4">
+          
+          {/* 视听融合病虫害预警 */}
+          <Panel title="视听融合病虫害预警" updateTime="14:35:42" className="flex-1 border-red-500/30">
+            {/* 警告横幅 */}
+            <div className="bg-red-500/20 border border-red-500 text-red-500 text-center py-1.5 rounded text-sm font-bold flex items-center justify-center gap-2 mb-3 shadow-[0_0_10px_rgba(255,0,0,0.3)] animate-pulse">
+              <AlertTriangle size={18} /> 检测到异常声学信号！
+            </div>
+            
+            <div className="flex gap-3 h-[180px]">
+              {/* 声谱图区域 */}
+              <div className="flex-1 relative">
+                <div className="absolute top-0 left-0 text-[10px] text-gray-400">频率(Hz)</div>
+                <div className="absolute bottom-[-15px] right-0 text-[10px] text-gray-400">时间(秒)</div>
+                <div className="absolute left-0 top-0 bottom-0 w-6 flex flex-col justify-between text-[10px] text-gray-400 pb-4 pt-4 z-10 bg-[#021124]/50">
+                  <span>20k</span><span>10k</span><span>5k</span><span>2k</span><span>1k</span><span>500</span>
+                </div>
+                <div className="absolute bottom-0 left-6 right-0 flex justify-between text-[10px] text-gray-400 px-2">
+                  <span>-60</span><span>-45</span><span>-30</span><span>-15</span><span>0</span>
+                </div>
+                
+                {/* Canvas 容器 */}
+                <div className="absolute top-4 left-6 right-0 bottom-4 border border-red-500/30 rounded overflow-hidden">
+                   {/* 使用十字准星标记异常位置 */}
+                   <div className="absolute top-[30%] right-[20%] w-8 h-8 pointer-events-none z-20">
+                      <div className="absolute top-1/2 left-0 right-0 h-px bg-red-500/80"></div>
+                      <div className="absolute left-1/2 top-0 bottom-0 w-px bg-red-500/80"></div>
+                      <div className="absolute inset-0 border border-red-500/80 rounded-full animate-ping opacity-50"></div>
+                   </div>
+                   <canvas ref={canvasRef} width="300" height="150" className="w-full h-full"></canvas>
+                </div>
+              </div>
+              
+              {/* 识别结果列表 */}
+              <div className="w-[100px] flex flex-col gap-2">
+                <div className="text-xs text-gray-400 mb-1">识别结果</div>
+                <div className="bg-red-500/10 border border-red-500/30 p-2 rounded relative overflow-hidden">
+                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
+                   <div className="text-white text-sm font-bold">钻心虫</div>
+                   <div className="text-red-400 text-[10px]">高置信度</div>
+                </div>
+                <div className="bg-red-500/10 border border-red-500/30 p-2 rounded relative overflow-hidden opacity-70">
+                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-red-500"></div>
+                   <div className="text-white text-sm font-bold">根结线虫</div>
+                   <div className="text-red-400 text-[10px]">高置信度</div>
+                </div>
+                <div className="bg-green-500/10 border border-green-500/30 p-2 rounded relative overflow-hidden opacity-50">
+                   <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500"></div>
+                   <div className="text-white text-sm font-bold">蚜虫</div>
+                   <div className="text-green-400 text-[10px]">低风险</div>
+                </div>
+              </div>
+            </div>
+          </Panel>
+
+          {/* AI 决策与控制指令流 */}
+          <Panel title="AI 决策与控制指令流" updateTime="14:35:42" className="flex-1">
+            <div className="flex flex-col gap-3 overflow-y-auto pr-2 custom-scrollbar" style={{ maxHeight: 'calc(100% - 10px)' }}>
+              {decisionLog.map((log, index) => (
+                <div key={index} className="flex gap-3 items-start relative pb-2 group">
+                  {/* 连线 */}
+                  {index !== decisionLog.length - 1 && (
+                    <div className="absolute left-[15px] top-8 bottom-[-10px] w-px bg-[#00ffff]/20"></div>
+                  )}
+                  {/* 图标状态 */}
+                  <div className={`relative z-10 p-1.5 rounded-full mt-1 
+                    ${log.status === 'running' ? 'bg-[#00ffff]/20 text-[#00ffff] border border-[#00ffff]/50' : 
+                      log.status === 'alert' ? 'bg-red-500/20 text-red-500 border border-red-500/50' : 
+                      'bg-green-500/20 text-green-500 border border-green-500/50'}`}>
+                    {log.icon}
+                  </div>
+                  {/* 内容 */}
+                  <div className="flex-1 bg-[#041a33]/50 p-2 rounded border border-[#00ffff]/10 group-hover:bg-[#041a33] transition-colors">
+                    <div className="flex justify-between items-center mb-1">
+                      <div className={`font-bold text-sm ${log.status === 'alert' ? 'text-red-400' : 'text-[#00ffff]'}`}>{log.title}</div>
+                      <div className="text-[10px] text-gray-500">{log.time}</div>
+                    </div>
+                    <div className="text-xs text-gray-400">{log.desc}</div>
+                  </div>
+                  {/* 右侧状态标签 */}
+                  <div className="mt-2 text-[10px]">
+                    {log.status === 'running' ? <span className="text-[#00ffff]">执行中</span> :
+                     log.status === 'alert' ? <span className="text-red-500">告警</span> :
+                     <span className="text-green-500">已完成</span>}
+                  </div>
+                </div>
+              ))}
+              <div className="text-center mt-2 cursor-pointer text-[#00ffff]/70 text-xs flex items-center justify-center gap-1 hover:text-[#00ffff]">
+                查看更多日志 <ChevronDown size={14} />
+              </div>
+            </div>
+            
+            <style dangerouslySetInnerHTML={{__html: `
+              .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+              .custom-scrollbar::-webkit-scrollbar-track { background: rgba(0, 255, 255, 0.05); border-radius: 4px; }
+              .custom-scrollbar::-webkit-scrollbar-thumb { background: rgba(0, 255, 255, 0.2); border-radius: 4px; }
+              .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 255, 0.4); }
+            `}} />
+          </Panel>
+        </div>
+      </main>
+
+      {/* --- 底部数据统计栏 --- */}
+      <footer className="grid grid-cols-7 gap-4 mt-4 relative z-10">
+        <StatCard icon={<Home />} label="大棚总数" value="12" unit="个" />
+        <StatCard icon={<Box />} label="种植面积" value="85.6" unit="亩" />
+        <StatCard icon={<Wifi />} label="设备在线率" value="98.7" unit="%" />
+        <StatCard icon={<AlertTriangle />} label="今日告警数" value="3" unit="次" isWarning={true} />
+        <StatCard icon={<Activity />} label="今日干预次数" value="18" unit="次" />
+        <StatCard icon={<Activity />} label="累计增产预估" value="+12.6" unit="%" trend={true} />
+        <StatCard icon={<Droplets />} label="节水节肥率" value="23.4" unit="%" trend={true} />
+      </footer>
+
+      {/* 隐藏的滤镜定义给一些特效使用 */}
+      <svg width="0" height="0" className="hidden">
+        <filter id="noise">
+          <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/>
+          <feColorMatrix type="matrix" values="1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 0.2 0" />
+        </filter>
+      </svg>
+    </div>
+  );
+}

@@ -1,0 +1,751 @@
+﻿<?xml version="1.0"?>
+<ArrayOfLanguageItem xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <LanguageItem>
+    <Key>文件</Key>
+    <Value>File</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>山东仁科测控</Key>
+    <Value>Shandong Renke Control Technology Co., Ltd.</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>Copyright © 山东仁科测控 2021</Key>
+    <Value>Copyright © Shandong Renke Control Technology Co., Ltd. 2021</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>壤博士记录仪数据管理系统</Key>
+    <Value>Dr. Soil multi factors recorder</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>手持式记录仪数据管理系统</Key>
+    <Value>Handheld recorder data management system</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>打开配置文件</Key>
+    <Value>Open The Configuration Fle</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>保存配置文件</Key>
+    <Value>Save The Configuration File</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>退出</Key>
+    <Value>Exit</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备</Key>
+    <Value>Device</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>读取设备信息</Key>
+    <Value>Read Device Information</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>写入设备信息</Key>
+    <Value>Write Device Information</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>读取设备存储数据</Key>
+    <Value>Read Device Storage Data</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>清除设备存储数据</Key>
+    <Value>Delete Device Storage Data</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备重启</Key>
+    <Value>Device Restart</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>时间同步</Key>
+    <Value>Time Synchronization</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>帮助</Key>
+    <Value>Help</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>软件信息</Key>
+    <Value>Software Information</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>使用帮助说明书</Key>
+    <Value>Using Manual</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>存储数据读取</Key>
+    <Value>Storage Data Read</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>导出TXT</Key>
+    <Value>Export TXT</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>导出Excel</Key>
+    <Value>Export Excel</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>导出Pdf</Key>
+    <Value>Export PDF</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备信息</Key>
+    <Value>Device Information</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>数据曲线 </Key>
+    <Value>Data Curve </Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key> 到 </Key>
+    <Value> To </Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>数据</Key>
+    <Value>Data</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>校时成功</Key>
+    <Value>Calibration Time Successful</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>数据清除成功</Key>
+    <Value>Data Delete Successful</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设置成功</Key>
+    <Value>Set Up Successful</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>USB设备初始化失败</Key>
+    <Value>USB Device Initialization Failed</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>保存成功</Key>
+    <Value>Saved Successful</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>保存失败</Key>
+    <Value>Save Failed</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>打开文件失败</Key>
+    <Value>Open the File Failed</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>开始时间</Key>
+    <Value>Starting Time</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>结束时间</Key>
+    <Value>End Time</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>记录数</Key>
+    <Value>Records</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>水分平均值(%)</Key>
+    <Value>Average moisture content (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分-水分平均值(%)</Key>
+    <Value>Temperature Moisture-Average Moisture (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分-温度平均值(℃)</Key>
+    <Value>Temperature&amp;moisture-Average temperature (℃)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>电导率平均值(us/cm)</Key>
+    <Value>Average EC (us/cm)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率-水分平均值(%)</Key>
+    <Value>Temperature,moisture&amp;EC-Average moisture (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率-温度平均值(℃)</Key>
+    <Value>Temperature,moisture&amp;EC-Average temperature (℃)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率-电导率平均值(us/cm)</Key>
+    <Value>Temperature&amp;Moisture&amp;EC-Average Conductivity (us/cm)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮平均值(mg/kg)</Key>
+    <Value>Average N (mg/kg)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>磷平均值(mg/kg)</Key>
+    <Value>Average P (mg/kg)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>钾平均值(mg/kg)</Key>
+    <Value>Average K(mg/kg)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一-氮平均值(mg/kg)</Key>
+    <Value>NPK three in One-Average N(mg/kg)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一-磷平均值(mg/kg)</Key>
+    <Value>NPK three in one-Average P (mg/kg)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一-钾平均值(mg/kg)</Key>
+    <Value>NPK Three in One-Average K (mg/kg)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度平均值(%)</Key>
+    <Value>Average of 5 layers soil moisture (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤湿度(%)</Key>
+    <Value>3 layers soil moisture (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-温度(℃)</Key>
+    <Value>3-layers soil temperature&amp;moisture-temperature (℃)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-湿度(%)</Key>
+    <Value>3 layers soil temperature&amp;moisture-humidity (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-温度(℃)</Key>
+    <Value>5 layers soil temperature&amp;moisture-temperature (℃)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-湿度(%)</Key>
+    <Value>5 layers soil temperature&amp;moisture-moisture (%)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>土壤PH</Key>
+    <Value>Soil PH</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>错误</Key>
+    <Value>error</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>名称错误</Key>
+    <Value>Wrong name</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>水分</Key>
+    <Value>Moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分-水分</Key>
+    <Value>Temperature&amp;moisture-moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分-温度</Key>
+    <Value>Temperature moisture-temperature</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>电导率</Key>
+    <Value>Conductivity</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率-水分</Key>
+    <Value>Temperature&amp;Moisture&amp;Conductivity-Moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率-温度</Key>
+    <Value>Temperature&amp;Moisture&amp;Conductivity-Temperature</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率-电导率</Key>
+    <Value>Temperature&amp;Moisture&amp;Conductivity-Conductivity</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮</Key>
+    <Value>N</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>磷</Key>
+    <Value>P</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>钾</Key>
+    <Value>K</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一-氮</Key>
+    <Value>NPK three in one-N</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一-磷</Key>
+    <Value>NPK three in one-P</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一-钾</Key>
+    <Value>NPK three in one-K</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度-湿度1</Key>
+    <Value>5 layers soil moisture-moisture 1</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度-湿度2</Key>
+    <Value>5 layers soil moisture-moisture 2</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度-湿度3</Key>
+    <Value>5 layers of soil moisture-moisture 3</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度-湿度4</Key>
+    <Value>5 layers soil moisture-moisture 4</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度-湿度5</Key>
+    <Value>5 layers soil moisture-moisture 5</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤湿度-湿度1</Key>
+    <Value>3 layers soil moisture-moisture 1</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤湿度-湿度2</Key>
+    <Value>3-layer soil moisture-moisture 2</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤湿度-湿度3</Key>
+    <Value>3 layer soil moisture-moisture 3</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-湿度1</Key>
+    <Value>3-layers soil temperature&amp;moisture-moisture 1</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-温度1</Key>
+    <Value>3 layers soil temperature&amp;moisture-temperature 1</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-湿度2</Key>
+    <Value>3-layers soil temperature&amp;moisture-moisture 2</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-温度2</Key>
+    <Value>3 layers soil temperature&amp;moisture-temperature 2</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-湿度3</Key>
+    <Value>3 layers soil temperature&amp;moisture-moisture 3</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度-温度3</Key>
+    <Value>3 layers soil temperature&amp;moisture-temperature 3</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-湿度1</Key>
+    <Value>5 layers soil temperature&amp;moisture-moisture 1</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-温度1</Key>
+    <Value>5 layers soil temperature&amp;moisture-temperature 1</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-湿度2</Key>
+    <Value>5 layers soil temperature&amp;moisture-moisture 2</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-温度2</Key>
+    <Value>5 layers soil temperature&amp;moisture-temperature 2</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-湿度3</Key>
+    <Value>5 layers soil temperature and humidity-moisture 3</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-温度3</Key>
+    <Value>5 layers soil temperature&amp;moisture-temperature 3</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-湿度4</Key>
+    <Value>5 layers soil temperature and humidity-moisture 4</Value>
+  </LanguageItem>
+   <LanguageItem>
+    <Key>5层土壤温湿度-温度4</Key>
+    <Value>5 layers soil temperature&amp;moisture-temperature 4</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-湿度5</Key>
+    <Value>5 layers soil temperature&amp;moisture-moisture 5</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度-温度5</Key>
+    <Value>5 layers soil temperature&amp;moisture-temperature 5</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分</Key>
+    <Value>Temperature&amp;moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>温度水分电导率</Key>
+    <Value>Temperature,moisture&amp;conductivity</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>氮磷钾三合一</Key>
+    <Value>NPK three in one</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤湿度</Key>
+    <Value>5 layers soil moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤湿度</Key>
+    <Value>3 layers soil moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>3层土壤温湿度</Key>
+    <Value>3 layers soil temperature&amp;moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>5层土壤温湿度</Key>
+    <Value>5 layers soil temperature&amp;moisture</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>发生报警</Key>
+    <Value>Alarm</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>记录数据</Key>
+    <Value>Recorded datas</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>无</Key>
+    <Value>NO</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>下限</Key>
+    <Value>Lower limit</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>下下限</Key>
+    <Value>Ultimate Lower limit</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>上限</Key>
+    <Value>Upper limit</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>上上限</Key>
+    <Value>Ultimate upper limit</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>地址</Key>
+    <Value>address</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key> 地址-</Key>
+    <Value> address-</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>数据曲线图</Key>
+    <Value>Data graph</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>不在线</Key>
+    <Value>Offline</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>在线</Key>
+    <Value>Online</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>记录时间</Key>
+    <Value>Record Time</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备编号</Key>
+    <Value>device ID</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>波特率</Key>
+    <Value>Baud rate</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>Modbus地址</Key>
+    <Value>address</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>寄存器名称</Key>
+    <Value>Register name</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>存储数值</Key>
+    <Value>Recorded value</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>产品名称</Key>
+    <Value>product Name</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>版本</Key>
+    <Value>Version</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>版本{0}</Key>
+    <Value>Version{0}</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>版本 {0}</Key>
+    <Value>Version {0}</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>版权</Key>
+    <Value>Copyright</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>公司名称</Key>
+    <Value>Company Name</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>说明</Key>
+    <Value>Description</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>确定(O)</Key>
+    <Value>Confirmation(O)</Value>
+  </LanguageItem>
+ <LanguageItem>
+    <Key>确定</Key>
+    <Value>Confirmation</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>确定(&amp;O)</Key>
+    <Value>Confirmation</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>关于</Key>
+    <Value>Regarding</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>关于{0}</Key>
+    <Value>Regarding{0}</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>关于 {0}</Key>
+    <Value>Regarding {0}</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>浓度</Key>
+    <Value>Concentration</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>写入参数</Key>
+    <Value>Write In</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>写入完成</Key>
+    <Value>Write Complete</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>正常</Key>
+    <Value>Normal</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>取值范围在{0}和{1}之间</Key>
+    <Value>The Value Range Is Between {0} And {1}</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>字节长度范围在{0}和{1}之间</Key>
+    <Value>The Bytes Length Range Is Between {0} And {1}</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>汉字个数范围在{0}和{1}之间</Key>
+    <Value>The Number of Chinese characters Is Between {0} And {1}</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>输入格式错误</Key>
+    <Value>Wong Input Format</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>日期格式错误</Key>
+    <Value>Wrong Date Format </Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>不能为空</Key>
+    <Value>Can't Be Empty </Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>数据曲线</Key>
+    <Value>Data Curve</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>到</Key>
+    <Value>To</Value>
+  </LanguageItem>  
+  <LanguageItem>
+    <Key>执行中,请稍等...</Key>
+    <Value>In Progress, Please Wait A Moment...</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>执行中，请稍等...</Key>
+    <Value>In Progress, Please Wait A Moment...</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>导出成功</Key>
+    <Value>Export Succeeded</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>导出失败</Key>
+    <Value>Export Failed</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>本设备类型</Key>
+    <Value>This Device Type</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备名称</Key>
+    <Value>Device Name</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>软件版本</Key>
+    <Value>Software Version</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>硬件版本</Key>
+    <Value>Hardware Version</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>当前时间</Key>
+    <Value>Current Time</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>息屏时间</Key>
+    <Value>Breathing Time</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>允许按键停报</Key>
+    <Value>Allow Key Press To Stop Reporting</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>允许</Key>
+    <Value>Allow</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>不允许</Key>
+    <Value>Not Allowed</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>声音开启</Key>
+    <Value>Sound On</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>开启</Key>
+    <Value>Open</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>关闭</Key>
+    <Value>Turn Off</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>报警开启</Key>
+    <Value>Alarm On</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>电池电量</Key>
+    <Value>Battery Power</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>允许记录</Key>
+    <Value>Allow Recording</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>已经存储的条目数</Key>
+    <Value>Number Of Entries Already Stored</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>存储数据条目数</Key>
+    <Value>Number Of Entries Already Stored</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>记录间隔(秒)</Key>
+    <Value>Recording Interval(s)</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>当前记录状态</Key>
+    <Value>Current Record Status</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>记录停止</Key>
+    <Value>Recording Stop</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>正在记录</Key>
+    <Value>Recording</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>存储清零</Key>
+    <Value>Store Cleared</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>当前告警信息</Key>
+    <Value>Current Alarm Information</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备生产日期</Key>
+    <Value>Production Time </Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>参数错误</Key>
+    <Value>Parameter Rrror</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>数据记录</Key>
+    <Value>Data Record</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>序列不包含任何元素</Key>
+    <Value>Sequence does not contain any elements</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>暂无数据</Key>
+    <Value>No data available at this time.</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>设备未插入</Key>
+    <Value>Device not inserted</Value>
+  </LanguageItem>
+  <LanguageItem>
+    <Key>请先读取设备信息!</Key>
+    <Value>Please read the device information first!</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>请选择通道</Key>
+    <Value>Please select a channel</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>通道</Key>
+    <Value>Channel</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>槽位</Key>
+    <Value>Slot</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>常亮</Key>
+    <Value>Always</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>无校验</Key>
+    <Value>None</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>奇校验</Key>
+    <Value>Odd</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>偶校验</Key>
+    <Value>Parity</Value>
+  </LanguageItem>
+<LanguageItem>
+    <Key>未读取通道参数</Key>
+    <Value>Channel parameters not read</Value>
+  </LanguageItem>
+</ArrayOfLanguageItem>

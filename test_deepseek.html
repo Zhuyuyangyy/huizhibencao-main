@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>DeepSeek API Key Test</title></head>
+<body>
+<h2>DeepSeek API Key Test</h2>
+<button onclick="testKey()">Test Key</button>
+<pre id="result">点击按钮测试...</pre>
+<script>
+async function testKey() {
+  const el = document.getElementById('result');
+  el.textContent = '请求中...';
+  try {
+    const resp = await fetch('https://api.deepseek.com/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer sk-45e4dffe689e43b986d6ce75177501f1'
+      },
+      body: JSON.stringify({
+        model: 'deepseek-chat',
+        messages: [{role:'user', content:'say hi'}],
+        max_tokens: 10
+      })
+    });
+    const data = await resp.json();
+    el.textContent = JSON.stringify(data, null, 2);
+  } catch(e) {
+    el.textContent = 'Error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
